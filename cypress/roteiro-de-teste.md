@@ -1,26 +1,46 @@
-# Funcionalidade: Login no site Adopet
-
-# Cenário: Falha no login do sistema
-
-# Passos:
-
-O usuário acessa a página de login.
-O usuário insere um e-mail e senha fora do padrão aceito nos campos correspondentes.
-O usuário clica no botão de login.
-
-# Resultados Esperados:
-
-O sistema valida as credenciais fornecidas.
-O sistema exibe mensagens de erro específicas para o e-mail e senha inseridos incorretamente, como: "Por favor, verifique o e-mail digitado" e/ou "A senha deve conter pelo menos uma letra maiúscula, um número e ter entre 6 e 15 caracteres".
-
-# Regra de Negócio:
-
-O e-mail deve ter um formato válido.
-A senha deve conter pelo menos uma letra maiuscula, um número e ter entre 6 e 15 caracteres
-
-
 ####
 
 cy.contains('button', 'submit');  
 
 cy.get('.btn');
+
+# Exercicios
+
+describe('Api Adopet', () => {
+  const authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZGQ3ZWFkNi1lYjQxLTQ1ZGQtOGE3NS0wM2IwMjI4NWJiZTciLCJhZG9wdGVyTmFtZSI6ImNhbWlsYSIsImlhdCI6MTcwODk1NTE3OCwiZXhwIjoxNzA5MjE0Mzc4fQ.fdtfjYaan12Z7SOVU02rb_HpmXt76XbhZMszI1eVJc8`
+    
+          it('Nome do perfil', () => {
+              cy.request({
+                  method: 'GET' ,
+                  url: 'https://adopet-api-i8qu.onrender.com/adotante/perfil/0dd7ead6-eb41-45dd-8a75-03b02285bbe7',
+                  headers: { authorization }
+                 
+              }).then((res) => {
+                  expect(res.status).to.be.equal(200)
+                  expect(res.body).is.not.empty
+                  expect(res.body).to.have.property('perfil')
+              expect(res.body.perfil.nome).to.be.equal('camila')
+                               
+              })
+          })
+      })
+
+ it('Consegue deletar todas as tarefas', () => {
+      cy.contains('Clear completed').click()
+      cy.get('.todo-list li')
+        .should('have.length', 1)
+        .should('not.have.text', 'Pay electric bill')
+       cy.contains('Clear completed').should('not.exist')
+    })
+
+it('Para filtrar tarefas completas', () => {
+       cy.contains('Completed').click()
+
+      cy.get('.todo-list li')
+        .should('have.length', 1)
+        .first()
+        .should('have.text', 'Pay electric bill')
+
+      cy.contains('Walk the dog').should('not.exist')
+    })
+
