@@ -1,4 +1,5 @@
 describe('Api Adopet', () => {
+    const tempoEsperado = Math.random() * 1000
     const authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZjgyNmI0Zi0xYjVlLTQ0MzEtOGNiMC04YzVkMjllNDY3MTIiLCJhZG9wdGVyTmFtZSI6IkFuYSBkZSBKZXN1cyIsImlhdCI6MTcxNTA2OTE3NSwiZXhwIjoxNzE1MzI4Mzc1fQ.5Urd_QhQzCIgw1cdXR4v3KsQ8Lsn1XtH6iH1RRBb3cM`
 
     //Atenção, o token possui um prazo de validade. Dessa forma, você deverá realizar o login e copiar o toker presente no Local Storage do seu navegador.
@@ -13,6 +14,7 @@ describe('Api Adopet', () => {
                     expect(res.status).to.be.equal(200)
                     expect(res.body).is.not.empty
                     expect(res.body).to.have.property('msg')
+                    expect(res.duration).to.be.lte(tempoEsperado)
                                  
                 })
     })
